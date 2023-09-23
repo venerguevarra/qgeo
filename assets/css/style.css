@@ -186,8 +186,12 @@ h6 {
 
 #header .logo img {
   max-height: 200px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 10px;
+}
+
+#header .container {
+  height: 100px;
 }
 
 .scrolled-offset {
@@ -249,7 +253,7 @@ h6 {
   height: 2px;
   bottom: -6px;
   left: 0;
-  background-color: #0076BE;
+  background-color: #00B300;
   visibility: hidden;
   width: 0px;
   transition: all 0.3s ease-in-out 0s;

@@ -1015,29 +1015,47 @@
 
   <script>
     // This function creates the YouTube player in the modal
-    function createYouTubePlayer() {
-      // Replace 'VIDEO_ID' with the actual YouTube video ID
-      var videoId = '_Cj1vgmXr5M';
-  
-      // Create a new YouTube player
-      var player = new YT.Player('youtubePlayer', {
+    // Define the YouTube player variable outside the function for global access
+var player;
+
+function createYouTubePlayer() {
+  // Replace 'VIDEO_ID' with the actual YouTube video ID
+  var videoId = '_Cj1vgmXr5M';
+
+  // Check if the player is already created
+  if (typeof player === 'undefined') {
+    // Create a new YouTube player
+    player = new YT.Player('youtubePlayer', {
       videoId: videoId,
-      width: '100%',  // Adjust the width as needed
+      width: '100%',
       height: '400px',
       playerVars: {
-        'autoplay': 1, // Autoplay when the modal opens
+        'autoplay': 1,
         'controls': 1,
         'rel': 0,
         'showinfo': 0
       },
+      events: {
+        'onReady': onPlayerReady
+      }
     });
-    }
+  } else {
+    // If the player is already created, cue the video and play it
+    player.cueVideoById(videoId);
+    player.playVideo();
+  }
+}
+
+function onPlayerReady(event) {
+  // The 'onReady' event is triggered when the player is ready
+  // You can perform additional actions here if needed
+}
+
   
     // Open the modal and create the YouTube player when the button is clicked
     $('#openVideoModal').click(function () {
       $('#videoModal').modal('show');
       createYouTubePlayer();
-      $('.modal-backdrop').css('opacity', '0.1');
     });
   
     // Close the modal when the video stops
@@ -1046,8 +1064,11 @@
     }
   
     // Call the stopVideo() function when the modal is closed
+    // Close the modal and stop the video when the modal is hidden
     $('#videoModal').on('hidden.bs.modal', function (e) {
-      stopVideo();
+      if (typeof player !== 'undefined') {
+        player.stopVideo();
+      }
     });
 
     $("#close-modal").click(function() {
